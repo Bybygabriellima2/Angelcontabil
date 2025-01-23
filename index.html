@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANGEL - Contabilidade Digital</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary: #D4AF37;
+            --primary-light: #FFD700;
+            --dark: #0a0a0a;
+            --darker: #000000;
+            --light: #ffffff;
+            --gray: #333333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--light);
+            background-color: var(--dark);
+        }
+
+        .header {
+            background-color: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            font-size: 2rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--light);
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .hero {
+            background: linear-gradient(rgba(23, 23, 23, 0.8), rgba(61, 61, 61, 0.8)), url('https://i.imgur.com/rQVWYJO_d.png?maxwidth=520&shape=thumb&fidelity=high') no-repeat center center;
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 2rem;
+            margin-top: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, transparent 20%, var(--dark) 100%);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, var(--primary-light), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary), var(--primary-light));
+            color: var(--dark);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                120deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .section {
+            padding: 8rem 2rem;
+            position: relative;
+        }
+
+        .about-section {
+            background: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9)), url('/api/placeholder/1920/1080') no-repeat center center;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-image {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .about-text {
+            padding: 2rem;
+        }
+
+        .about-text h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 2.5rem;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+            color: var(--primary);
+            font-size: 2.5rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 3px;
+            background: var(--primary);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: var(--gray);
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            text-align: center;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .service-card h3 {
+            margin-bottom: 1rem;
+            color: var(--primary-light);
+        }
+
+        .service-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+            margin-top: 1rem;
+        }
+
+        .service-card.active .service-content {
+            max-height: 500px;
+        }
+
+        .service-toggle {
+            background: none;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            margin-top: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .service-toggle:hover {
+            background: var(--primary);
+            color: var(--dark);
+        }
+
+        .service-card.active .service-toggle {
+            background: var(--primary);
+            color: var(--dark);
+        }
+
+        .mission-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .mission-card {
+            background: var(--gray);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mission-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(212, 175, 55, 0.1),
+                transparent
+            );
+            transform: rotate(45deg);
+            transition: 0.5s;
+            opacity: 0;
+        }
+
+        .mission-card:hover::before {
+            opacity: 1;
+        }
+
+        .mission-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        .mission-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--gray);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 10px;
+            color: var(--light);
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .form-label {
+            position: absolute;
+            left: 1rem;
+            top: 1rem;
+            color: rgba(255, 255, 255, 0.5);
+            transition: all 0.3s;
+            pointer-events: none;
+        }
+
+        .form-input:focus ~ .form-label,
+        .form-input:not(:placeholder-shown) ~ .form-label {
+            top: -0.5rem;
+            left: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--primary);
+            background: var(--gray);
+            padding: 0 0.5rem;
+        }
+
+        .footer {
+            background-color: var(--darker);
+            padding: 4rem 2rem;
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-link {
+            color: var(--primary);
+            font-size: 1.8rem;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            color: var(--primary-light);
+            transform: translateY(-3px);
+        }
+
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary);
+            transform-origin: left;
+            transform: scaleX(0);
+            transition: transform 0.3s;
+            z-index: 1001;
+        }
+
+        .whatsapp-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .whatsapp-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Adiciona animação de loading */
+        .loading-bar {
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--primary-light));
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s;
+        }
+
+        .form-submitting .loading-bar {
+            transform: scaleX(1);
+        }
+
+        /* Adiciona efeito de parallax nos cards */
+        .tilt-card {
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+        }
+
+        .tilt-card-inner {
+            transform: translateZ(20px);
+        }
+
+        .pricing-plans {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .plan-card {
+            background: var(--gray);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .plan-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+        }
+
+        .plan-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: var(--darker);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        .plan-title {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .plan-features {
+            list-style: none;
+            margin: 1.5rem 0;
+            text-align: left;
+        }
+
+        .plan-features li {
+            margin: 0.8rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .plan-features li::before {
+            content: '✓';
+            color: var(--primary);
+            position: absolute;
+            left: 0;
+        }
+
+        .plan-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--primary);
+            color: var(--dark);
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+
+        .plan-button:hover {
+            transform: translateY(-3px);
+        }
+
+        /* Testimonials Section Styles */
+        .testimonials {
+            padding: 4rem 2rem;
+            background: var(--darker);
+            text-align: center;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background: var(--gray);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: left;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark);
+            font-weight: bold;
+        }
+
+        .author-info h4 {
+            color: var(--primary);
+            margin: 0;
+        }
+
+        .author-info p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin: 0;
+        }
+
+        .contact-form {
+    display: none;
+}
+
+/* Novos estilos para os cards de contato */
+.contact-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.contact-card {
+    background: var(--gray);
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    transition: all 0.3s;
+    border: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+.contact-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--primary);
+}
+
+.contact-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 1.5rem;
+    background: var(--darker);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: var(--primary);
+}
+
+.contact-card h3 {
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.contact-card p {
+    margin-bottom: 1.5rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.contact-link {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+.contact-link:hover {
+    color: var(--primary-light);
+}
+
+.contact-info {
+    text-align: center;
+    margin-top: 4rem;
+    padding: 2rem;
+    background: var(--gray);
+    border-radius: 15px;
+    border: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+.contact-info h3 {
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+}
+
+.contact-info p {
+    margin-bottom: 1rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.contact-social {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.contact-social .social-link {
+    font-size: 1.5rem;
+    color: var(--primary);
+    transition: all 0.3s;
+}
+
+.contact-social .social-link:hover {
+    color: var(--primary-light);
+    transform: translateY(-3px);
+}
+
+@media (max-width: 768px) {
+    .contact-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .contact-info {
+        margin-top: 2rem;
+    }
+}
+
+/* Ajustes para o hero em modo mobile */
+@media (max-width: 768px) {
+    .hero {
+        background: linear-gradient(rgba(23, 23, 23, 0.8), rgba(61, 61, 61, 0.8)), 
+                    url('https://i.imgur.com/1XdoTB6.png') no-repeat center center;
+        background-size: cover;
+        min-height: 80vh; /* Reduzido para melhor visualização em mobile */
+        padding-top: 80px; /* Espaço para o header fixo */
+    }
+
+    .hero-content {
+        padding: 0 1rem;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Ajustes do botão WhatsApp para mobile */
+    .whatsapp-button {
+        bottom: 1rem;
+        right: 1rem;
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+        z-index: 1000;
+    }
+
+    /* Garantir que o botão não sobreponha outros elementos */
+    .whatsapp-button i {
+        line-height: 50px;
+    }
+}
+
+/* Estilos Globais Responsivos */
+:root {
+    --header-height-mobile: 70px;
+    --section-padding-mobile: 4rem 1rem;
+}
+
+/* Media Queries Principais */
+@media (max-width: 1200px) {
+    .container {
+        padding: 0 2rem;
+    }
+
+    .hero h1 {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .about-content {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .section {
+        padding: var(--section-padding-mobile);
+    }
+
+    .pricing-plans {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Header Mobile */
+    .header {
+        height: var(--header-height-mobile);
+    }
+
+    .nav-container {
+        padding: 0 1rem;
+    }
+
+    .logo {
+        font-size: 1.5rem;
+    }
+
+    .logo i {
+        font-size: 1.8rem;
+    }
+
+    /* Menu Mobile */
+    .nav-menu {
+        position: fixed;
+        top: var(--header-height-mobile);
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - var(--header-height-mobile));
+        background-color: var(--darker);
+        padding: 2rem;
+        flex-direction: column;
+        align-items: center;
+        transition: 0.3s;
+        z-index: 999;
+    }
+
+    .nav-menu.active {
+        left: 0;
+    }
+
+    .nav-link {
+        font-size: 1.2rem;
+        padding: 1rem 0;
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Hero Section Mobile */
+    .hero {
+        min-height: 100vh;
+        padding: calc(var(--header-height-mobile) + 2rem) 1rem 4rem;
+        background-position: center;
+    }
+
+    .hero-content {
+        padding: 0 1rem;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Seções Mobile */
+    .section-title {
+        font-size: 2rem;
+        margin-bottom: 3rem;
+    }
+
+    .about-image img {
+        width: 100%;
+        height: auto;
+    }
+
+    .stats-container {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .mission-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    /* Cards Mobile */
+    .service-card, .mission-card, .plan-card {
+        padding: 1.5rem;
+    }
+
+    .contact-cards {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    /* Footer Mobile */
+    .footer {
+        padding: 3rem 1rem;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        text-align: center;
+    }
+
+    .social-links {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Ajustes Extra Small */
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+
+    .btn {
+        padding: 0.8rem 2rem;
+        font-size: 0.9rem;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+    }
+
+    .stat-number {
+        font-size: 2rem;
+    }
+
+    .contact-card {
+        padding: 1.2rem;
+    }
+}
+
+/* Ajustes de Performance */
+@media (max-width: 768px) {
+    .tilt-card {
+        transform: none !important;
+    }
+
+    [data-aos] {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
+
+/* Ajustes de Formulário Mobile */
+@media (max-width: 768px) {
+    .form-input {
+        padding: 0.8rem;
+        font-size: 1rem;
+    }
+
+    .form-label {
+        font-size: 0.9rem;
+    }
+}
+
+/* Ajustes de Imagens Responsivas */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Otimizações para Dispositivos com Tela Alta */
+@media (min-height: 800px) and (max-width: 768px) {
+    .hero {
+        min-height: 80vh;
+    }
+}
+
+/* Ajustes para Dispositivos com Notch */
+@supports (padding-top: env(safe-area-inset-top)) {
+    .header {
+        padding-top: env(safe-area-inset-top);
+    }
+    
+    .hero {
+        padding-top: calc(env(safe-area-inset-top) + var(--header-height-mobile));
+    }
+}
+
+/* Menu Hamburguer Responsivo */
+.mobile-menu-button {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--primary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+@media (max-width: 768px) {
+    .mobile-menu-button {
+        display: block;
+    }
+
+    .mobile-menu-button i {
+        transition: transform 0.3s ease;
+    }
+
+    .mobile-menu-button.active i {
+        transform: rotate(90deg);
+    }
+}
+
+/* Ajustes de Layout para Tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .container {
+        max-width: 90%;
+    }
+
+    .about-content {
+        gap: 2rem;
+    }
+
+    .services-grid, .mission-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Ajuste adicional para telas muito pequenas */
+@media (max-width: 480px) {
+    .hero {
+        min-height: 70vh;
+    }
+
+    .whatsapp-button {
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
+    }
+
+    .whatsapp-button i {
+        line-height: 45px;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div class="scroll-indicator"></div>
+    
+    <header class="header">
+        <nav class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-calculator"></i>
+                ANGEL CONTÁBIL
+            </a>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">Início</a></li>
+                <li><a href="#about" class="nav-link">Sobre</a></li>
+                <li><a href="#services" class="nav-link">Serviços</a></li>
+                <li><a href="#mission" class="nav-link">Missão</a></li>
+                <li><a href="#contact" class="nav-link">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content" data-aos="fade-up">
+            <h1>Excelência em Contabilidade Digital</h1>
+            <p>Transformando desafios financeiros em oportunidades de crescimento para sua empresa</p>
+            <a href="#contact" class="btn btn-primary">Iniciar Agora</a>
+        </div>
+    </section>
+
+    <section id="about" class="section about-section">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Sobre Nós</h2>
+            <div class="about-content">
+                <div class="about-image" data-aos="fade-right">
+                    <img src="https://i.imgur.com/nxSLsoq.png" alt="ANGEL Office">
+                </div>
+                <div class="about-text" data-aos="fade-left">
+                    <h2>Sua Parceira em Sucesso Financeiro</h2>
+                    <p>A ANGEL nasceu da visão de transformar a contabilidade tradicional através da tecnologia, oferecendo soluções modernas e totalmente digitais para empresas que buscam eficiência e praticidade em seus processos contábeis.</p>
+<p>Nossa equipe jovem e altamente qualificada utiliza as mais recentes tecnologias e está sempre atualizada com as mudanças na legislação, garantindo um serviço ágil, preciso e totalmente digital para sua empresa.</p>
+                    <p>Nossa equipe de profissionais altamente qualificados está sempre atualizada com as últimas mudanças na legislação e tendências do mercado, garantindo que sua empresa esteja sempre em conformidade e preparada para o futuro.</p>
+                    <div class="stats-container">
+                        <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
+                            <div class="stat-number">24 horas</div>
+                            <div>Suporte Digital</div>
+                        </div>
+                        <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
+                            <div class="stat-number">100%</div>
+                            <div>Digital</div>
+                        </div>
+                        <div class="stat-item" data-aos="fade-up" data-aos-delay="300">
+                            <div class="stat-number">5+</div>
+                            <div>Serviços Especializados</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="section">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Nossos Serviços</h2>
+            <div class="pricing-plans">
+                <div class="plan-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="plan-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3 class="plan-title">Plano Simples</h3>
+                    <p>Solução completa para empresas que buscam manter sua contabilidade em dia.</p>
+                    <ul class="plan-features">
+                        <li>Contabilidade Fiscal</li>
+                        <li>Regularização de empresas</li>
+                        <li>Serviços básicos</li>
+                    </ul>
+                    <a href="https://wa.me/5581997693511" class="plan-button">Saiba Mais</a>
+                </div>
+
+                <div class="plan-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="plan-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="plan-title">Plano Médio</h3>
+                    <p>Inclui serviços do Plano Simples mais suporte trabalhista.</p>
+                    <ul class="plan-features">
+                        <li>Todos os serviços do Plano Simples</li>
+                        <li>Setor trabalhista (até 2 folhas)</li>
+                        <li>2 serviços extras</li>
+                    </ul>
+                    <a href="https://wa.me/5581997693511" class="plan-button">Saiba Mais</a>
+                </div>
+
+                <div class="plan-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="plan-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3 class="plan-title">Plano Premium</h3>
+                    <p>Solução completa com suporte estratégico e consultoria.</p>
+                    <ul class="plan-features">
+                        <li>Todos os serviços anteriores</li>
+                        <li>Setor trabalhista (até 5 folhas)</li>
+                        <li>Consultoria estratégica</li>
+                        <li>2 serviços extras à escolha</li>
+                    </ul>
+                    <a href="https://wa.me/5581997693511" class="plan-button">Saiba Mais</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="mission" class="section">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Nossa Missão</h2>
+            <div class="mission-grid">
+                <div class="mission-card" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fas fa-bullseye mission-icon"></i>
+                    <h3>Visão</h3>
+                    <p>Ser referência nacional em soluções contábeis inovadoras e sustentáveis, transformando a maneira como as empresas gerenciam suas finanças.</p>
+                </div>
+                <div class="mission-card" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fas fa-handshake mission-icon"></i>
+                    <h3>Valores</h3>
+                    <p>Ética, transparência, excelência e inovação em todos os processos, priorizando sempre o sucesso de nossos clientes.</p>
+                </div>
+                <div class="mission-card" data-aos="fade-up" data-aos-delay="300">
+                    <i class="fas fa-rocket mission-icon"></i>
+                    <h3>Propósito</h3>
+                    <p>Impulsionar o sucesso dos nossos clientes através da excelência contábil, proporcionando crescimento sustentável e tranquilidade financeira.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Entre em Contato</h2>
+            <div class="contact-cards">
+                <div class="contact-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <h3>Telefone</h3>
+                    <p>Atendimento de segunda a sexta</p>
+                    <a href="tel:5581997693511" class="contact-link">(81) 99769-3511</a>
+                </div>
+                
+                <div class="contact-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3>E-mail</h3>
+                    <p>Resposta em até 24 horas</p>
+                    <a href="mailto:assessoriangel@gmail.com" class="contact-link">assessoriangel@gmail.com</a>
+                </div>
+                
+                <div class="contact-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="contact-icon">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <h3>WhatsApp</h3>
+                    <p>Atendimento instantâneo</p>
+                    <a href="https://wa.me/5581997693511" class="contact-link">Iniciar conversa</a>
+                </div>
+            </div>
+            
+            <div class="contact-info" data-aos="fade-up" data-aos-delay="400">
+                <h3>Horário de Atendimento</h3>
+                <p>Segunda a Sexta: 09:00 - 18:00</p>
+                <p>Sábado: 09:00 - 13:00</p>
+                <div class="contact-social">
+                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h3>ANGEL</h3>
+                    <p>Transformando números em resultados</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h3>Contato</h3>
+                    <p><i class="fas fa-envelope"></i> assessoriangel@gmail.com</p>
+                    <p><i class="fas fa-phone"></i> (81) 99769-3511</p>
+                </div>
+                <div>
+                    <h3>Endereço</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> </p>
+                    <p>Recife - PE</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/5581997693511" class="whatsapp-button" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        // Inicializa AOS (Animate On Scroll)
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+
+        // Scroll suave
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Toggle dos cards de serviço
+        document.querySelectorAll('.service-toggle').forEach(button => {
+            button.addEventListener('click', function() {
+                const card = this.closest('.service-card');
+                card.classList.toggle('active');
+                this.textContent = card.classList.contains('active') ? 'Ver Menos' : 'Saiba Mais';
+            });
+        });
+
+        // Efeito de parallax nos cards
+        document.querySelectorAll('.tilt-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 20;
+                const rotateY = (centerX - x) / 20;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+            });
+        });
+
+        // Manipulação do formulário
+        document.querySelector('.contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Adiciona classe de loading
+            this.classList.add('form-submitting');
+            
+            // Simula envio
+            setTimeout(() => {
+                alert('Mensagem enviada com sucesso! Entraremos em contato em breve.');
+                this.reset();
+                this.classList.remove('form-submitting');
+            }, 1500);
+        });
+
+        // Indicador de scroll
+        const scrollIndicator = document.querySelector('.scroll-indicator');
+        window.addEventListener('scroll', () => {
+            const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = (window.scrollY / totalScroll) * 100;
+            scrollIndicator.style.transform = `scaleX(${scrolled / 100})`;
+        });
+
+        // Efeito do header no scroll
+        let lastScroll = 0;
+        const header = document.querySelector('.header');
+        
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            // Adiciona sombra e ajusta opacidade baseado no scroll
+            if (currentScroll > 50) {
+                header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+                header.style.backgroundColor = 'rgba(0, 0, 0, 0.98)';
+            } else {
+                header.style.boxShadow = 'none';
+                header.style.backgroundColor = 'rgba(0, 0, 0, 0.95)';
+            }
+            
+            // Esconde/mostra header baseado na direção do scroll
+            if (currentScroll > lastScroll && currentScroll > 100) {
+                header.style.transform = 'translateY(-100%)';
+            } else {
+                header.style.transform = 'translateY(0)';
+            }
+            
+            lastScroll = currentScroll;
+        });
+
+        // Contador animado para as estatísticas
+        function animateValue(element, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const value = Math.floor(progress * (end - start) + start);
+                element.textContent = value + (element.dataset.suffix || '');
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        // Inicia animação das estatísticas quando visíveis
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumbers = entry.target.querySelectorAll('.stat-number');
+                    statNumbers.forEach(stat => {
+                        const endValue = parseInt(stat.textContent);
+                        stat.textContent = '0';
+                        animateValue(stat, 0, endValue, 2000);
+                    });
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelector('.stats-container').querySelectorAll('.stat-item').forEach(stat => {
+            observer.observe(stat);
+        });
+
+        // Menu mobile
+        const createMobileMenu = () => {
+            const nav = document.querySelector('.nav-menu');
+            const menuButton = document.createElement('button');
+            menuButton.className = 'mobile-menu-button';
+            menuButton.innerHTML = '<i class="fas fa-bars"></i>';
+            
+            const mobileStyles = document.createElement('style');
+            mobileStyles.textContent = `
+                @media (max-width: 768px) {
+                    .mobile-menu-button {
+                        display: block;
+                        background: none;
+                        border: none;
+                        color: var(--primary);
+                        font-size: 1.5rem;
+                        cursor: pointer;
+                        padding: 0.5rem;
+                    }
+                    
+                    .nav-menu {
+                        display: none;
+                        position: fixed;
+                        top: 80px;
+                        left: 0;
+                        width: 100%;
+                        background: var(--darker);
+                        padding: 1rem;
+                        flex-direction: column;
+                        align-items: center;
+                        gap: 1rem;
+                        border-top: 1px solid var(--primary);
+                    }
+                    
+                    .nav-menu.active {
+                        display: flex;
+                    }
+                }
+            `;
+            
+            document.head.appendChild(mobileStyles);
+            document.querySelector('.nav-container').appendChild(menuButton);
+            
+            menuButton.addEventListener('click', () => {
+                nav.classList.toggle('active');
+                menuButton.innerHTML = nav.classList.contains('active') ? 
+                    '<i class="fas fa-times"></i>' : 
+                    '<i class="fas fa-bars"></i>';
+            });
+
+            // Fecha menu ao clicar em um link
+            nav.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    nav.classList.remove('active');
+                    menuButton.innerHTML = '<i class="fas fa-bars"></i>';
+                });
+            });
+        };
+
+        // Inicializa menu mobile
+        createMobileMenu();
+
+        // Efeito de reveal nos elementos quando scrollar
+        const revealElements = document.querySelectorAll('.service-card, .mission-card, .about-content > div');
+        
+        const revealOnScroll = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        revealElements.forEach(element => {
+            revealOnScroll.observe(element);
+        });
+
+        // Validação do formulário em tempo real
+        const form = document.querySelector('.contact-form');
+        const inputs = form.querySelectorAll('input, textarea');
+
+        inputs.forEach(input => {
+            input.addEventListener('blur', () => {
+                validateInput(input);
+            });
+        });
+
+        function validateInput(input) {
+            const errorClass = 'input-error';
+            
+            if (input.required && !input.value) {
+                input.classList.add(errorClass);
+                return false;
+            }
+            
+            if (input.type === 'email' && input.value) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(input.value)) {
+                    input.classList.add(errorClass);
+                    return false;
+                }
+            }
+            
+            if (input.type === 'tel' && input.value) {
+                const phoneRegex = /^\(\d{2}\)\s\d{4,5}-\d{4}$/;
+                if (!phoneRegex.test(input.value)) {
+                    input.classList.add(errorClass);
+                    return false;
+                }
+            }
+            
+            input.classList.remove(errorClass);
+            return true;
+        }
+
+        // Máscara para telefone
+        const phoneInput = form.querySelector('input[type="tel"]');
+        phoneInput.addEventListener('input', (e) => {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length <= 11) {
+                value = value.replace(/^(\d{2})(\d{4,5})(\d{4}).*/, '($1) $2-$3');
+                e.target.value = value;
+            }
+        });
+
+        // Efeito de parallax no hero
+        const hero = document.querySelector('.hero');
+        window.addEventListener('scroll', () => {
+            const scroll = window.pageYOffset;
+            hero.style.backgroundPositionY = `${scroll * 0.5}px`;
+        });
+
+    </script>
+</body>
+</html>
+            
